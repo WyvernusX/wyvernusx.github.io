@@ -180,7 +180,7 @@
 
     <div class="img-block" id="imgBlock">
       <div class="arrows-col" id="arrowsCol"></div>
-      <img id="pfp" src="https://raw.githubusercontent.com/WyvernusX/wyvernusx.github.io/main/picture.png" alt="me" />
+      <img id="pfp" src="https://raw.githubusercontent.com/WyvernusX/wyvernusx.github.io/main/images.jpg" alt="me" />
     </div>
 
     <div class="line"><span class="prompt">&gt;</span></div>
@@ -188,6 +188,7 @@
     <div class="line">
       <span class="prompt">&gt;</span>
       <span class="text">for more info, run
+        <span class="dollar">$</span> sudo about,
         <span class="dollar">$</span> sudo experience,
         <span class="dollar">$</span> sudo projects, or
         <span class="dollar">$</span> sudo socials
@@ -232,12 +233,23 @@
 
   /* ── commands ── */
   const commands = {
+    'sudo about': {
+      lines: [
+        '> aspiring front end dev and software engineer',
+        '> currently learning DSA',
+        '> pc and computer enthusiast',
+        '> intermediate cardist',
+        '> lexus fanboy (benz > bmw)',
+        '> alpine & freestyle skier',
+      ]
+    },
     'sudo experience': {
       lines: [
         '> kotlin, python, lua, git',
         '> founder + lead dev @ seared fish studios',
         '> leader of school coding club',
-        '> CCC participant and leetcode grinder',
+        '> leetcode grinder',
+        '> CCC \'26 participant',
       ]
     },
     'sudo projects': {
@@ -252,6 +264,7 @@
       lines: [
         '> discord  -> wyvernusx',
         '> leetcode -> wyvernusx',
+        '> dm::oj -> wyvernusx',
         '> github   -> wyvernusx',
         '> spotify  -> wyv',
         '> usually found under "wyvernusx" or "wyv"',
@@ -261,15 +274,6 @@
       lines: [
         '> sudo experience  — skills & experience',
         '> sudo projects    — things i\'ve made',
-        '> sudo socials     — where to find me',
-        '> sudo exit        — close terminal',
-        '> sudo clear            — clear history',
-      ]
-    },
-    'sudo help': {
-      lines: [
-        '> sudo experience  — skills & experience',
-        '> sudo projects    — things i\'ve built',
         '> sudo socials     — where to find me',
         '> sudo exit        — close terminal',
         '> sudo clear            — clear history',
