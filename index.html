@@ -1,17 +1,246 @@
-<!DOCTYPE = HTML>
-<title>personal website</title>
-<link rel="stylesheet" href="styles.css">
-<link rel="pfp" href="picture.png">
-<link rel="icon" href="https://raw.githubusercontent.com/WyvernusX/fish/main/favicion.png" type="image/png" />
-<header>
-  <div>> Power Shell </div>
-  <div>> Copyright (C) Seared Fish Studios. All rights reserved.</div>
-  <div>></div>
-  <div>> hey, im lucas!</div>
-  <div>> <img src="https://raw.githubusercontent.com/WyvernusX/wyvernusx.github.io/main/picture.png" width="320" height="480" alt="pfp" id="pfp" draggable="false"> </div>
-  <div>> programming, cardistry, skiing, skateboarding</div>
-  <div>> i am a 10th grader at lauremont school</div>
-  <div>> for more info, run $ wyv experience, $ wyv projects, or $ wyv background</div>
-  <div>> </div>
-  <div>> C:\Users\user> </div>
-</header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>personal website</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/WyvernusX/fish/main/favicion.png" type="image/png" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+    body {
+      background: #1e1e1e;
+      color: #cccccc;
+      font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+      font-size: 15px;
+      min-height: 100vh;
+      padding: 0;
+    }
+ 
+    .window {
+      max-width: 860px;
+      margin: 40px auto;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+ 
+    .titlebar {
+      background: #3c3c3c;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+ 
+    .titlebar-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-red    { background: #ff5f57; }
+    .dot-yellow { background: #febc2e; }
+    .dot-green  { background: #28c840; }
+ 
+    .titlebar-title {
+      margin: 0 auto;
+      font-size: 12px;
+      color: #aaa;
+    }
+ 
+    .terminal {
+      background: #1e1e1e;
+      padding: 20px 24px 16px;
+      line-height: 1.7;
+    }
+ 
+    .line {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      min-height: 1.7em;
+    }
+ 
+    .prompt { color: #cccccc; white-space: pre; flex-shrink: 0; }
+    .text   { color: #cccccc; }
+ 
+    .line img {
+      display: block;
+      width: 260px;
+      border: 1px solid #444;
+      margin: 4px 0;
+    }
+ 
+    .dollar { color: #c9604e; font-weight: bold; }
+ 
+    /* animated input */
+    .input-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+    }
+ 
+    .input-prompt { color: #c9604e; white-space: pre; flex-shrink: 0; }
+ 
+    .fake-input { display: flex; align-items: center; flex: 1; }
+ 
+    #cmd-display { color: #cccccc; white-space: pre; }
+ 
+    .cursor {
+      display: inline-block;
+      width: 9px;
+      height: 1.15em;
+      background: #cccccc;
+      vertical-align: text-bottom;
+      margin-left: 1px;
+      animation: blink 1.1s step-end infinite;
+    }
+ 
+    .cursor.typing { animation: none; opacity: 1; }
+ 
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+ 
+    .cmd-output {
+      margin-top: 4px;
+      border-left: 2px solid #cccccc;
+      padding-left: 12px;
+    }
+ 
+    .cmd-output div { color: #cccccc; line-height: 1.7; }
+  </style>
+</head>
+<body>
+ 
+<div class="window">
+  <div class="titlebar">
+    <div class="titlebar-dot dot-red"></div>
+    <div class="titlebar-dot dot-yellow"></div>
+    <div class="titlebar-dot dot-green"></div>
+    <span class="titlebar-title">PowerShell — wyvernusx.github.io</span>
+  </div>
+ 
+  <div class="terminal">
+    <div class="line"><span class="prompt">&gt;</span><span class="text">Power Shell</span></div>
+    <div class="line"><span class="prompt">&gt;</span><span class="text">Copyright (C) Seared Fish Studios. All rights reserved.</span></div>
+    <div class="line"><span class="prompt">&gt;</span></div>
+    <div class="line"><span class="prompt">&gt;</span><span class="text">hey, im lucas!</span></div>
+
+    <div class="img-block" id="imgBlock">
+    <div class="arrows-col" id="arrowsCol"></div>
+    <img id="pfp" src="https://raw.githubusercontent.com/WyvernusX/wyvernusx.github.io/main/picture.png" width = "300" alt="me" />
+    </div>
+ 
+    <div class="line"><span class="prompt">&gt;</span></div>
+    <div class="line"><span class="prompt">&gt;</span><span class="text">programming, cardistry, skiing, skateboarding</span></div>
+    <div class="line"><span class="prompt">&gt;</span><span class="text">i am a 10th grader at lauremont school</span></div>
+    <div class="line">
+      <span class="prompt">&gt;</span>
+      <span class="text">for more info, run
+        <span class="dollar">$</span> sudo experience,
+        <span class="dollar">$</span> sudo projects, or
+        <span class="dollar">$</span> sudo background
+      </span>
+    </div>
+    <div class="line"><span class="prompt">&gt;</span></div>
+ 
+    <div class="input-line">
+      <span class="input-prompt">C:\Users\user&gt;&nbsp;</span>
+      <div class="fake-input">
+        <span id="cmd-display"></span><span class="cursor" id="cursor"></span>
+      </div>
+    </div>
+ 
+    <div id="output"></div>
+  </div>
+</div>
+ 
+<script>
+  const commands = {
+    'sudo experience': [
+      '> kotlin, python, lua, git',
+      '> founder + lead dev @ seared fish studios',
+      '> leader of coding club @ lauremont',
+      '> language instructor @ optimistic language learning',
+    ],
+    'sudo projects': [
+      '> wyvernusx.github.io — this site',
+      '> rhythm - basic rhythm game',
+      '> fish - small website demo / test',
+      '> various projects and tools on github',
+    ],
+    'sudo background': [
+      '> 16 year old programmer',
+      '> born in hong kong',
+      '> raised in canada',
+      '> disciplined, open minded, critical thinker',
+      '> values honesty',
+      '> student at lauremont school',
+      '> aspiring front end developer, front end engineer',
+    ],
+  };
+ 
+  const display = document.getElementById('cmd-display');
+  const cursor  = document.getElementById('cursor');
+  const output  = document.getElementById('output');
+  const queue   = Object.keys(commands);
+  let qi = 0;
+ 
+  function typeCommand(cmd, cb) {
+    let i = 0;
+    cursor.classList.add('typing');
+    display.textContent = '';
+    const iv = setInterval(() => {
+      display.textContent += cmd[i++];
+      if (i >= cmd.length) {
+        clearInterval(iv);
+        cursor.classList.remove('typing');
+        setTimeout(cb, 60);
+      }
+    }, 60);
+  }
+ 
+  function showOutput(cmd) {
+    output.innerHTML = '';
+    const block = document.createElement('div');
+    block.className = 'cmd-output';
+    commands[cmd].forEach(l => {
+      const d = document.createElement('div');
+      d.textContent = l;
+      block.appendChild(d);
+    });
+    output.appendChild(block);
+  }
+ 
+  function eraseCommand(cb) {
+    cursor.classList.add('typing');
+    const iv = setInterval(() => {
+      const t = display.textContent;
+      if (!t.length) {
+        clearInterval(iv);
+        cursor.classList.remove('typing');
+        cb();
+      } else {
+        display.textContent = t.slice(0, -1);
+      }
+    }, 60);
+  }
+ 
+  function loop() {
+    const cmd = queue[qi++ % queue.length];
+    typeCommand(cmd, () => {
+      showOutput(cmd);
+      setTimeout(() => {
+        eraseCommand(() => {
+          output.innerHTML = '';
+          setTimeout(loop, 200);
+        });
+      }, 2000);
+    });
+  }
+ 
+  setTimeout(loop, 2000);
+</script>
+ 
+</body>
+</html>
