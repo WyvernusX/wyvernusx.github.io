@@ -14,16 +14,12 @@
       color: #cccccc;
       font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
       font-size: 15px;
-      min-height: 100vh;
-      padding: 0;
     }
  
     .window {
       max-width: 860px;
-      margin: 40px auto;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      width: 100%;
+      margin: 0 auto;
     }
  
     .titlebar {
@@ -61,7 +57,21 @@
     .prompt { color: #cccccc; white-space: pre; flex-shrink: 0; }
     .text   { color: #cccccc; }
  
-    .line img {
+    .img-block {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+ 
+    .arrows-col {
+      display: flex;
+      flex-direction: column;
+      color: #cccccc;
+      line-height: 1.7;
+      flex-shrink: 0;
+    }
+ 
+    .img-block img {
       display: block;
       width: 260px;
       border: 1px solid #444;
@@ -70,7 +80,6 @@
  
     .dollar { color: #c9604e; font-weight: bold; }
  
-    /* animated input */
     .input-line {
       display: flex;
       align-items: center;
@@ -108,6 +117,12 @@
     }
  
     .cmd-output div { color: #cccccc; line-height: 1.7; }
+ 
+    @media (max-width: 600px) {
+      body { font-size: 12px; }
+      .terminal { padding: 12px 14px; }
+      .img-block img { width: 160px; }
+    }
   </style>
 </head>
 <body>
@@ -125,10 +140,10 @@
     <div class="line"><span class="prompt">&gt;</span><span class="text">Copyright (C) Seared Fish Studios. All rights reserved.</span></div>
     <div class="line"><span class="prompt">&gt;</span></div>
     <div class="line"><span class="prompt">&gt;</span><span class="text">hey, im lucas!</span></div>
-
+ 
     <div class="img-block" id="imgBlock">
-    <div class="arrows-col" id="arrowsCol"></div>
-    <img id="pfp" src="https://raw.githubusercontent.com/WyvernusX/wyvernusx.github.io/main/picture.png" width = "300" alt="me" />
+      <div class="arrows-col" id="arrowsCol"></div>
+      <img id="pfp" src="https://raw.githubusercontent.com/WyvernusX/wyvernusx.github.io/main/picture.png" alt="me" />
     </div>
  
     <div class="line"><span class="prompt">&gt;</span></div>
@@ -156,6 +171,24 @@
 </div>
  
 <script>
+  function fillArrows() {
+    const img = document.getElementById('pfp');
+    const col = document.getElementById('arrowsCol');
+    col.innerHTML = '';
+    const lineH = parseFloat(getComputedStyle(col).lineHeight) || 23;
+    const count = Math.round(img.offsetHeight / lineH);
+    for (let i = 0; i < count; i++) {
+      const s = document.createElement('span');
+      s.textContent = '>';
+      col.appendChild(s);
+    }
+  }
+ 
+  const pfp = document.getElementById('pfp');
+  pfp.addEventListener('load', fillArrows);
+  if (pfp.complete) fillArrows();
+  window.addEventListener('resize', fillArrows);
+ 
   const commands = {
     'sudo experience': [
       '> kotlin, python, lua, git',
