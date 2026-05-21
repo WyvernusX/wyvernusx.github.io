@@ -300,6 +300,18 @@
         '> sudo clear            — Clear history',
       ]
     },
+    'sudo video': {
+      lines: [
+        '> video can be found at the google drive link below:', 
+        '> <a href="https://github.com/WyvernusX/fish">Watch Video</a>',
+      ]
+    },
+  'sudo resume': {
+    lines: [
+       '> resume linked below:',
+      '> <a href="https://docs.google.com/document/d/11ctvXrHHtZOEqMWoAtLJhu5Ty9NJSPGFe6SsnPS91_U/edit?usp=sharing">Resume Document</a>',
+    ]
+  },
   };
  
   /* ── DOM refs ── */
@@ -342,7 +354,7 @@
     if (raw === 'sudo exit') {
       const bye = document.createElement('div');
       bye.className = 'cmd-output';
-      bye.innerHTML = '<div>> session ended. refresh to restart.</div>';
+      bye.innerHTML = '<div>> Session ended. Refresh to restart.</div>';
       history.appendChild(bye);
       inputLine.style.display = 'none';
       scrollDown();
