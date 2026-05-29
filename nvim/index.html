@@ -1,345 +1,402 @@
 <!DOCTYPE = html>
 <html>
   <body>
-   init.lua
+    <body>init.lua</body>
 
     vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
-    vim.g.mapleader = " "
-    vim.o.guifont = "MononokiNerdFont:h14"
+  vim.g.mapleader = " "
+  vim.o.guifont = "MononokiNerdFont:h14"
 
-    local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+  local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
-    if not vim.uv.fs_stat(lazypath) then
-      local repo = "https://github.com/folke/lazy.nvim.git"
-      vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
-    end
+  if not vim.uv.fs_stat(lazypath) then
+    local repo = "https://github.com/folke/lazy.nvim.git"
+    vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
+  end
 
-    vim.opt.rtp:prepend(lazypath)
+  vim.opt.rtp:prepend(lazypath)
 
-    local lazy_config = require "configs.lazy"
+  local lazy_config = require "configs.lazy"
 
-    require("lazy").setup({
-      {
-        "NvChad/NvChad",
-        lazy = false,
-        branch = "v2.5",
-        import = "nvchad.plugins",
-      },
-      {
-        "rebelot/kanagawa.nvim",
-        priority = 1000,
-        config = function()
-          require('kanagawa').setup({
-            compile = false,
-            undercurl = true,
-            commentStyle = { italic = true },
-            functionStyle = {},
-            keywordStyle = { italic = true },
-            statementStyle = { bold = true },
-            typeStyle = {},
-            transparent = false,
-            dimInactive = false,
-            terminalColors = true,
-            colors = {
-              palette = {},
-              theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
-            },
-            overrides = function(colors)
-              return {}
-            end,
-            theme = "wave",
-            background = {
-              dark = "dragon",
-              light = "dragon",
-            },
-          })
-          vim.cmd("colorscheme kanagawa-wave")
-        end,
-      },
-      {
-        "nvim-tree/nvim-tree.lua",
-        lazy = false,
-        dependencies = {
-          "nvim-tree/nvim-web-devicons",
-        },
-        config = function()
-          require("nvim-tree").setup({
-            view = {
-              width = 50,
-            },
-            renderer = {
-              highlight_opened_files = "none",
-              highlight_git = false,
-            },
-          })
-        end,
-      },
-      {
-        "Mohammed-Taher/AdvancedNewFile.nvim",
-        config = function()
-          require("advanced-new-file").setup()
-        end,
-      },
-      {
-        "karb94/neoscroll.nvim",
-        config = function()
-          require("neoscroll").setup()
-        end,
-      },
-      {
-        "sphamba/smear-cursor.nvim",
-        event = "VeryLazy",
-        config = function()
-          require("smear_cursor").setup({
-            stiffness = 0.8,
-            trailing_stiffness = 0.5,
-            distance_stop_animating = 0.5,
-            hide_target_hack = true,
-          })
-        end,
-      },
-      {
-        "udalov/kotlin-vim",
-        ft = "kotlin",
-      },
-      {
-        "azratul/expose-localhost.nvim",
-      },
-      {
-        "nvim-lualine/lualine.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        event = "VeryLazy",
-        config = function()
-          local bg     = "#0d0c0c"
-          local fg     = "#c5c9c5"
-          local faint  = "#727169"
-          local violet = "#957fb8"
-          local blue   = "#7e9cd8"
-          local cyan   = "#6a9589"
-          local red    = "#c34043"
-          local orange = "#ffa066"
-          local green  = "#76946a"
-          local yellow = "#c0a36e"
-
-          local mode_color = {
-            n  = violet, i  = green,  v  = blue,
-            V  = blue,   c  = orange, R  = red,
-            r  = cyan,   t  = red,    [""] = blue,
-            [""] = orange,
-          }
-          local function mc() return mode_color[vim.fn.mode()] or violet end
-
-          require("lualine").setup({
-            options = {
-              icons_enabled = true,
-              globalstatus = true,
-              component_separators = "",
-              section_separators = { left = "", right = "" },
-              theme = {
-                normal   = { c = { fg = fg, bg = bg } },
-                inactive = { c = { fg = faint, bg = bg } },
-              },
-              disabled_filetypes = {},
-            },
-            sections = {
-              lualine_a = {},
-              lualine_b = {},
-              lualine_y = {},
-              lualine_z = {},
-              lualine_c = {
-                {
-                  "mode",
-                  fmt = function(s) return "  " .. s .. " " end,
-                  color = function() return { fg = bg, bg = mc(), gui = "bold" } end,
-                  separator = { left = "", right = "" },
-                  padding = 0,
-                },
-                {
-                  function() return "  " end,
-                  color = { fg = bg, bg = bg },
-                  padding = 0,
-                },
-                {
-                  "branch",
-                  icon = "",
-                  color = { fg = fg, bg = bg, gui = "bold" },
-                  padding = { left = 1, right = 1 },
-                },
-                {
-                  "diff",
-                  symbols = { added = "+ ", modified = "~ ", removed = "- " },
-                  diff_color = {
-                    added    = { fg = green,  bg = bg },
-                    modified = { fg = orange, bg = bg },
-                    removed  = { fg = red,    bg = bg },
-                  },
-                  padding = { left = 1, right = 1 },
-                },
-                {
-                  "filename",
-                  path = 1,
-                  symbols = { modified = " [+]", readonly = " [RO]", unnamed = "[?]" },
-                  color = { fg = fg, bg = bg },
-                  padding = { left = 1, right = 1 },
-                },
-              },
-              lualine_x = {
-                {
-                  "diagnostics",
-                  sources = { "nvim_lsp" },
-                  symbols = { error = "E:", warn = "W:", info = "I:", hint = "H:" },
-                  diagnostics_color = {
-                    error = { fg = red,    bg = bg },
-                    warn  = { fg = yellow, bg = bg },
-                    info  = { fg = cyan,   bg = bg },
-                    hint  = { fg = green,  bg = bg },
-                  },
-                  padding = { left = 1, right = 1 },
-                },
-                {
-                  "filetype",
-                  colored = true,
-                  color = { fg = fg, bg = bg },
-                  padding = { left = 1, right = 1 },
-                },
-                {
-                  function()
-                    local line = vim.fn.line(".")
-                    local col  = vim.fn.virtcol(".")
-                    local pct  = math.floor(line / vim.fn.line("$") * 100)
-                    return pct .. "%%  " .. line .. ":" .. col
-                  end,
-                  color = function() return { fg = bg, bg = mc(), gui = "bold" } end,
-                  separator = { left = "", right = "" },
-                  padding = { left = 1, right = 1 },
-                },
-              },
-            },
-            inactive_sections = {
-              lualine_a = {}, lualine_b = {}, lualine_y = {}, lualine_z = {},
-              lualine_c = { { "filename", color = { fg = faint, bg = bg } } },
-              lualine_x = { { "location", color = { fg = faint, bg = bg } } },
-            },
-          })
-        end,
-      },
-      {
-        "williamboman/mason.nvim",
-        opts = {
-          ensure_installed = {
-            "vscode-langservers-extracted",
-            "typescript-language-server",
-            "pyright",
-            "kotlin-language-server",
+  require("lazy").setup({
+    {
+      "NvChad/NvChad",
+      lazy = false,
+      branch = "v2.5",
+      import = "nvchad.plugins",
+    },
+    {
+      "rebelot/kanagawa.nvim",
+      priority = 1000,
+      config = function()
+        require('kanagawa').setup({
+          compile = false,
+          undercurl = true,
+          commentStyle = { italic = true },
+          functionStyle = {},
+          keywordStyle = { italic = true },
+          statementStyle = { bold = true },
+          typeStyle = {},
+          transparent = false,
+          dimInactive = false,
+          terminalColors = true,
+          colors = {
+            palette = {},
+            theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
           },
-        },
-      },
-      {
-        "vyfor/cord.nvim",
-        build = ":Cord update",
-        event = "VeryLazy",
-        opts = {
-          display = {
-            theme = "void",
-            flavor = "dark",
+          overrides = function(colors)
+            return {}
+          end,
+          theme = "dragon",
+          background = {
+            dark = "dragon",
+            light = "dragon",
           },
-        },
-      },
-      {
-        "folke/todo-comments.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        opts = {},
-      },
-      {
-        "neovim/nvim-lspconfig",
-        config = function()
-          local lspconfig = require("lspconfig")
-          local servers = { "html", "cssls", "ts_ls", "jsonls", "eslint", "pyright", "kotlin_language_server" }
-          for _, server in ipairs(servers) do
-            lspconfig[server].setup({})
-          end
-        end,
-      },
-
-      { import = "plugins" },
-    }, lazy_config)
-
-    vim.cmd("colorscheme kanagawa-wave")
-
-    vim.api.nvim_create_autocmd({ "VimEnter", "ColorScheme" }, {
-      callback = function()
-        vim.api.nvim_set_hl(0, "StatusLine",           { bg = "#0d0c0c", fg = "#0d0c0c" })
-        vim.api.nvim_set_hl(0, "StatusLineNC",         { bg = "#0d0c0c", fg = "#0d0c0c" })
-        vim.api.nvim_set_hl(0, "NvimTreeCursorLine",   { bg = "NONE" })
-        vim.api.nvim_set_hl(0, "NvimTreeNormalFloat",  { bg = "NONE" })
-        vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = "#2d2d2d", bg = "#2d2d2d" })
-        vim.api.nvim_set_hl(0, "WinSeparator",         { fg = "#2d2d2d", bg = "#2d2d2d" })
-        vim.api.nvim_set_hl(0, "Visual",               { bg = "#3a3a3a" })
-        vim.api.nvim_set_hl(0, "CursorLine",           { bg = "#3a3a3a" })
-        vim.api.nvim_set_hl(0, "TabLine",              { fg = "#727169", bg = "#181616" })
-        vim.api.nvim_set_hl(0, "TabLineSel",           { fg = "#0d0c0c", bg = "#0d0c0c", bold = true })
-        vim.api.nvim_set_hl(0, "TabLineFill",          { bg = "#0d0c0c" })
+        })
+        vim.cmd("colorscheme kanagawa-dragon")
       end,
-    })
-
-    vim.schedule(function()
-      vim.api.nvim_create_user_command("Kotlin", function()
-        local file = vim.fn.expand("%")
-        local out = vim.fn.expand("%:r") .. ".jar"
-        vim.cmd("terminal kotlinc " .. file .. " -include-runtime -d " .. out .. " && java -jar " .. out)
-      end, {})
-    end)
-
-    require "options"
-    require "autocmds"
-
-    vim.schedule(function()
-      require "mappings"
-    end)
-
-    vim.defer_fn(function()
-      vim.api.nvim_set_hl(0, "TbFill",            { bg = "#181616" })
-      vim.api.nvim_set_hl(0, "TbBufOn",           { fg = "#c5c9c5", bg = "#2a2a37", bold = true })
-      vim.api.nvim_set_hl(0, "TbBufOff",          { fg = "#727169", bg = "#181616" })
-      vim.api.nvim_set_hl(0, "TbBufOnClose",      { fg = "#c5c9c5", bg = "#2a2a37" })
-      vim.api.nvim_set_hl(0, "TbBufOffClose",     { fg = "#727169", bg = "#181616" })
-      vim.api.nvim_set_hl(0, "TbBufOnModified",   { fg = "#ffa066", bg = "#2a2a37" })
-      vim.api.nvim_set_hl(0, "TbBufOffModified",  { fg = "#ffa066", bg = "#181616" })
-      vim.api.nvim_set_hl(0, "StatusLine",        { bg = "#0d0c0c", fg = "#0d0c0c" })
-      vim.api.nvim_set_hl(0, "StatusLineNC",      { bg = "#0d0c0c", fg = "#0d0c0c" })
-      require("lualine").setup()
-    end, 500)
-
-    chardrc.lua
-    ---@type ChadrcConfig
-    ---
-    local M = {}
-
-    M.base46 = {
-      theme = "kanagawa-dragon",
-      hl_override = {
-        TbFill        = { bg = "#181616" },
-        TbBufOn       = { fg = "#c5c9c5", bg = "#2a2a37", bold = true },
-        TbBufOff      = { fg = "#727169", bg = "#181616" },
-        TbBufOnClose  = { fg = "#c5c9c5", bg = "#2a2a37" },
-        TbBufOffClose = { fg = "#727169", bg = "#181616" },
-        TbBufOnModified  = { fg = "#ffa066", bg = "#2a2a37" },
-        TbBufOffModified = { fg = "#ffa066", bg = "#181616" },
-        
-        NvimTreeFolderName       = { fg = "#c0a36e" },
-        NvimTreeOpenedFolderName = { fg = "#c0a36e" },
-        NvimTreeEmptyFolderName  = { fg = "#c0a36e" },
-        NvimTreeFolderIcon       = { fg = "#c0a36e" },
+    },
+    {
+      "nvim-tree/nvim-tree.lua",
+      lazy = false,
+      dependencies = {
+        "nvim-tree/nvim-web-devicons",
       },
-    }
+      config = function()
+        require("nvim-tree").setup({
+          view = {
+            width = 50,
+          },
+          renderer = {
+            highlight_opened_files = "none",
+            highlight_git = false,
+          },
+        })
+      end,
+    },
+    {
+      "Mohammed-Taher/AdvancedNewFile.nvim",
+      cmd = { "AdvancedNewFile" },
+      config = function()
+        require("advanced-new-file").setup()
+      end,
+    },
+    {
+      "karb94/neoscroll.nvim",
+      event = "WinScrolled",
+      config = function()
+        require("neoscroll").setup()
+      end,
+    },
+    {
+      "sphamba/smear-cursor.nvim",
+      event = "VeryLazy",
+      config = function()
+        require("smear_cursor").setup({
+          stiffness = 0.8,
+          trailing_stiffness = 0.5,
+          distance_stop_animating = 0.5,
+          hide_target_hack = true,
+        })
+      end,
+    },
+    {
+      "udalov/kotlin-vim",
+      event = "BufReadPost",
+      ft = "kotlin",
+    },
+    {
+      "azratul/expose-localhost.nvim",
+      cmd = { "Expose" },
+    },
+    {
+      "nvim-lualine/lualine.nvim",
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+      event = "VeryLazy",
+      config = function()
+        local bg      = "#0d0c0c"
+        local fg      = "#c5c9c5"
+        local faint   = "#727169"
+        local violet  = "#957fb8"
+        local blue    = "#7e9cd8"
+        local cyan    = "#6a9589"
+        local red     = "#c34043"
+        local orange  = "#ffa066"
+        local green   = "#76946a"
+        local yellow  = "#c0a36e"
 
-    M.ui = {
-      tabufline = {
-        enabled = true,
+        local mode_color = {
+          n  = violet, i  = green,  v  = blue,
+          V  = blue,   c  = orange, R  = red,
+          r  = cyan,   t  = red,    [""] = blue,
+          [""] = orange,
+        }
+        local function mc() return mode_color[vim.fn.mode()] or violet end
+
+        require("lualine").setup({
+          options = {
+            icons_enabled = true,
+            globalstatus = true,
+            component_separators = "",
+            section_separators = { left = "", right = "" },
+            theme = {
+              normal   = { c = { fg = fg, bg = bg } },
+              inactive = { c = { fg = faint, bg = bg } },
+            },
+            disabled_filetypes = {},
+          },
+          sections = {
+            lualine_a = {},
+            lualine_b = {},
+            lualine_y = {},
+            lualine_z = {},
+            lualine_c = {
+              {
+                "mode",
+                fmt = function(s) return "  " .. s .. " " end,
+                color = function() return { fg = bg, bg = mc(), gui = "bold" } end,
+                separator = { left = "", right = "" },
+                padding = 0,
+              },
+              {
+                function() return "  " end,
+                color = { fg = bg, bg = bg },
+                padding = 0,
+              },
+              {
+                "branch",
+                icon = "",
+                color = { fg = fg, bg = bg, gui = "bold" },
+                padding = { left = 1, right = 1 },
+              },
+              {
+                "diff",
+                symbols = { added = "+ ", modified = "~ ", removed = "- " },
+                diff_color = {
+                  added    = { fg = green,  bg = bg },
+                  modified = { fg = orange, bg = bg },
+                  removed  = { fg = red,    bg = bg },
+                },
+                padding = { left = 1, right = 1 },
+              },
+              {
+                "filename",
+                path = 1,
+                symbols = { modified = " [+]", readonly = " [RO]", unnamed = "[?]" },
+                color = { fg = fg, bg = bg },
+                padding = { left = 1, right = 1 },
+              },
+            },
+            lualine_x = {
+              {
+                "diagnostics",
+                sources = { "nvim_lsp" },
+                symbols = { error = "E:", warn = "W:", info = "I:", hint = "H:" },
+                diagnostics_color = {
+                  error = { fg = red,    bg = bg },
+                  warn  = { fg = yellow, bg = bg },
+                  info  = { fg = cyan,   bg = bg },
+                  hint  = { fg = green,  bg = bg },
+                },
+                padding = { left = 1, right = 1 },
+              },
+              {
+                "filetype",
+                colored = true,
+                color = { fg = fg, bg = bg },
+                padding = { left = 1, right = 1 },
+              },
+              {
+                function()
+                  local line = vim.fn.line(".")
+                  local col  = vim.fn.virtcol(".")
+                  local pct  = math.floor(line / vim.fn.line("$") * 100)
+                  return pct .. "%%  " .. line .. ":" .. col
+                end,
+                color = function() return { fg = bg, bg = mc(), gui = "bold" } end,
+                separator = { left = "", right = "" },
+                padding = { left = 1, right = 1 },
+              },
+            },
+          },
+          inactive_sections = {
+            lualine_a = {}, lualine_b = {}, lualine_y = {}, lualine_z = {},
+            lualine_c = { { "filename", color = { fg = faint, bg = bg } } },
+            lualine_x = { { "location", color = { fg = faint, bg = bg } } },
+          },
+        })
+      end,
+    },
+    {
+      "williamboman/mason.nvim",
+      event = "VeryLazy",
+      opts = {
+        ensure_installed = {
+          "html-lsp",
+          "css-lsp",
+          "typescript-language-server",
+          "pyright",
+          "kotlin-language-server",
+          "vscode-langservers-extracted",
+          "json-lsp",
+        },
       },
-    }
+    },
+    {
+      "vyfor/cord.nvim",
+      build = ":Cord update",
+      event = "VeryLazy",
+      opts = {
+        display = {
+          theme = "void",
+          flavor = "dark",
+        },
+      },
+    },
+    {
+      "folke/todo-comments.nvim",
+      event = "VimEnter",
+      dependencies = { "nvim-lua/plenary.nvim" },
+      opts = {},
+    },
+    {
+      "neovim/nvim-lspconfig",
+      event = { "BufReadPost", "BufNewFile" },
+      config = function()
+        local lspconfig = require("lspconfig")
+        -- Updated list to include web dev servers
+        local servers = { 
+          "html", 
+          "cssls", 
+          "ts_ls", -- This handles JS and TS
+          "jsonls", 
+          "eslint", 
+          "pyright", 
+          "kotlin_language_server" 
+        }
+        for _, server in ipairs(servers) do
+          lspconfig[server].setup({})
+        end
+      end,
+    },
+    {
+      "folke/noice.nvim",
+      event = "VeryLazy",
+      dependencies = {
+        "MunifTanjim/nui.nvim",
+        "rcarriga/nvim-notify",
+      },
+      config = function()
+        require("noice").setup({
+          routes = {
+            {
+              filter = { event = "msg_show", min_height = 5 },
+              view = "split",
+            },
+          },
+          cmdline = {
+            view = "cmdline_popup",
+            opts = {
+              position = {
+                row = "40%",
+                col = "50%",
+              },
+            },
+          },
+          lsp = {
+            override = {
+              ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+              ["vim.lsp.util.stylize_markdown"] = true,
+              ["cmp.entry.get_documentation"] = true,
+            },
+          },
+          presets = {
+            bottom_search = true,
+            command_palette = true,
+            long_message_to_split = true,
+            inc_rename = false,
+            lsp_doc_border = false,
+          },
+        })
 
-    return M
-      
+        vim.api.nvim_set_hl(0, "NoiceCmdlinePopup",       { bg = "NONE", fg = "NONE" })
+        vim.api.nvim_set_hl(0, "NoiceCmdlinePopupBorder", { fg = "#7e9cd8", bg = "NONE" })
+        vim.api.nvim_set_hl(0, "NoiceCmdlinePopupTitle",  { fg = "#7e9cd8", bg = "NONE" })
+      end,
+    },
+    {
+      "rcarriga/nvim-notify",
+      lazy = true,
+      config = function()
+        require("notify").setup({
+          background_colour = "#0d0c0c",
+          fps = 60,
+          render = "compact",
+          stages = "fade",
+          timeout = 3000,
+        })
+        vim.notify = require("notify")
+      end,
+    },
+    {
+      "chikko80/error-lens.nvim",
+      event = "LspAttach", -- Changed to LspAttach to ensure it only fires when diagnostic data exists
+      opts = {},
+      dependencies = {
+        "nvim-telescope/telescope.nvim"
+      },
+    },
+    {
+      "tpope/vim-fugitive",
+      cmd = { "Git", "G" },
+    },
+    { import = "plugins" },
+  }, lazy_config)
+
+  vim.cmd("colorscheme kanagawa-dragon")
+
+  vim.api.nvim_create_autocmd({ "VimEnter", "ColorScheme" }, {
+    callback = function()
+      vim.api.nvim_set_hl(0, "StatusLine",           { bg = "#0d0c0c", fg = "#0d0c0c" })
+      vim.api.nvim_set_hl(0, "StatusLineNC",         { bg = "#0d0c0c", fg = "#0d0c0c" })
+      vim.api.nvim_set_hl(0, "NvimTreeCursorLine",   { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "NvimTreeNormalFloat",  { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = "#2d2d2d", bg = "#2d2d2d" })
+      vim.api.nvim_set_hl(0, "WinSeparator",         { fg = "#2d2d2d", bg = "#2d2d2d" })
+      vim.api.nvim_set_hl(0, "Visual",               { bg = "#3a3a3a" })
+      vim.api.nvim_set_hl(0, "CursorLine",           { bg = "#3a3a3a" })
+      vim.api.nvim_set_hl(0, "TabLine",              { fg = "#727169", bg = "#181616" })
+      vim.api.nvim_set_hl(0, "TabLineSel",           { fg = "#0d0c0c", bg = "#0d0c0c", bold = true })
+      vim.api.nvim_set_hl(0, "TabLineFill",          { bg = "#0d0c0c" })
+    end,
+  })
+
+  vim.schedule(function()
+    vim.api.nvim_create_user_command("Kotlin", function()
+      local file = vim.fn.expand("%")
+      local out = vim.fn.expand("%:r") .. ".jar"
+      vim.cmd("terminal kotlinc " .. file .. " -include-runtime -d " .. out .. " && java -jar " .. out)
+    end, {})
+  end)
+
+  require "options"
+  require "autocmds"
+
+  vim.schedule(function()
+    require "mappings"
+  end)
+
+  vim.defer_fn(function()
+    vim.api.nvim_set_hl(0, "TbFill",            { bg = "#181616" })
+    vim.api.nvim_set_hl(0, "TbBufOn",           { fg = "#c5c9c5", bg = "#2a2a37", bold = true })
+    vim.api.nvim_set_hl(0, "TbBufOff",          { fg = "#727169", bg = "#181616" })
+    vim.api.nvim_set_hl(0, "TbBufOnClose",      { fg = "#c5c9c5", bg = "#2a2a37" })
+    vim.api.nvim_set_hl(0, "TbBufOffClose",     { fg = "#727169", bg = "#181616" })
+    vim.api.nvim_set_hl(0, "TbBufOnModified",   { fg = "#ffa066", bg = "#2a2a37" })
+    vim.api.nvim_set_hl(0, "TbBufOffModified",  { fg = "#ffa066", bg = "#181616" })
+    vim.api.nvim_set_hl(0, "StatusLine",        { bg = "#0d0c0c", fg = "#0d0c0c" })
+    vim.api.nvim_set_hl(0, "StatusLineNC",      { bg = "#0d0c0c", fg = "#0d0c0c" })
+    require("lualine").setup()
+  end, 500) 
  </body>
 </html>
