@@ -246,11 +246,11 @@
     },
     'sudo experience': {
       lines: [
-        '> kotlin, python, lua, and git',
+        '> typescript, kotlin, python, lua, java, c++, and git',
         '> founder + lead dev @ seared fish studios',
-        '> leader of school coding club',
-        '> leetcode grinder',
-        '> nvim user',
+        '> fedora user' 
+        '> professional ricer',
+        '> leetcode grinder', 
       ]
     },
     'sudo projects': {
@@ -259,6 +259,7 @@
         '> rhythm - basic rhythm game',
         '> fish - small website demo / test',
         '> various miscellaneous projects and others on github',
+        '> a few other minecraft mods', 
       ]
     },
     'sudo socials': {
@@ -278,8 +279,8 @@
         '> sudo experience  — skills & experience',
         '> sudo projects    — things i\'ve made',
         '> sudo socials     — where to find me',
-        '> sudo exit        — close terminal',
-        '> sudo clear            — clear history',
+        '> exit             — close terminal',
+        '> clear            — clear history',
       ]
     },
   };
@@ -321,7 +322,7 @@
     cmdDisplay.textContent = '';
 
     /* handle special cases */
-    if (raw === 'sudo exit') {
+    if (raw === 'exit') {
       const bye = document.createElement('div');
       bye.className = 'cmd-output';
       bye.innerHTML = '<div>> session ended. refresh to restart.</div>';
@@ -331,7 +332,7 @@
       return;
     }
 
-    if (raw === 'sudo clear') {
+    if (raw === 'clear') {
       history.innerHTML = '';
       scrollDown();
       return;
