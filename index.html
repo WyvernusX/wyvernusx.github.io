@@ -85,7 +85,7 @@
       margin: 4px 0;
     }
 
-    .dollar { color: #c9604e; font-weight: bold; }
+    .dollar { color: #4AF262; font-weight: bold; }
 
     /* output blocks */
     .cmd-output {
@@ -106,7 +106,7 @@
       margin-top: 2px;
     }
 
-    .input-prompt { color: #c9604e; white-space: pre; flex-shrink: 0; }
+    .input-prompt { color: #4AF262; white-space: pre; flex-shrink: 0; }
     .fake-input   { display: flex; align-items: center; flex: 1; position: relative; }
 
     #cmd-display {
@@ -150,7 +150,7 @@
       color: #cccccc;
       line-height: 1.7;
     }
-    .history-cmd .input-prompt { color: #c9604e; }
+    .history-cmd .input-prompt { color: #4AF262; }
 
     @media (max-width: 600px) {
       body { font-size: 12px; padding: 0; }
@@ -187,7 +187,11 @@
     <div class="line"><span class="prompt">&gt;</span><span class="text">programming, cardistry, skiing, cars</span></div>
     <div class="line">
       <span class="prompt">&gt;</span>
-      <span class="text">for more info, run
+      <span class="text">for more info, run:
+      </span>
+    </div> 
+    <div class="line">
+        <span class="prompt">&gt;</span> 
         <span class="dollar">$</span> sudo wyv about,
         <span class="dollar">$</span> sudo wyv experience,
         <span class="dollar">$</span> sudo wyv projects, or
@@ -313,7 +317,7 @@
     /* record the typed line */
     const cmdRow = document.createElement('div');
     cmdRow.className = 'history-cmd';
-    cmdRow.innerHTML = `<span class="input-prompt">C:\\Users\\user&gt;&nbsp;</span><span>${escHtml(realInput.value.trim())}</span>`;
+    cmdRow.innerHTML = `<span class="input-prompt">user@wyvos&gt;&nbsp;</span><span>${escHtml(realInput.value.trim())}</span>`;
     history.appendChild(cmdRow);
 
     /* clear input */
